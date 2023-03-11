@@ -1,11 +1,39 @@
 import styled from 'styled-components';
+import { Modal } from 'Modal/Modal';
+import { Component } from 'react';
 
-export function ImageGalleryItem({ src, largeIMG, alt }) {
-  return (
-    <Item>
-      <Image src={src} alt={alt} />
-    </Item>
-  );
+export class ImageGalleryItem extends Component {
+  state = {
+    showModal: false,
+  };
+
+  handleOpenModal = () => {
+    this.setState({ showModal: true });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ showModal: false });
+  };
+
+  render() {
+    return (
+      <Item>
+        <Image
+          src={this.props.src}
+          alt={this.props.alt}
+          onClick={this.handleOpenModal}
+        />
+        {this.state.showModal && (
+          <Modal
+            image={this.props.largeIMG}
+            alt={this.props.alt}
+            onClose={this.handleCloseModal}
+            onOpen={this.state.showModal}
+          />
+        )}
+      </Item>
+    );
+  }
 }
 
 const Item = styled.li`
@@ -22,9 +50,8 @@ const Image = styled.img`
   object-fit: cover;
 
   border-radius: 4px;
-  border: 1px solid #189fbe;
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
-    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  border: 1px solid #fd6a02;
+  box-shadow: 7px 7px 5px 0px rgba(0, 0, 0, 0.75);
   transition: transform 250ms linear;
 
   &:hover {

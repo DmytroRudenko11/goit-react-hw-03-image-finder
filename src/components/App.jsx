@@ -6,7 +6,6 @@ import { SearchBar } from './SearchBar/SearchBar';
 export class App extends Component {
   state = {
     searchValue: '',
-    isLoading: false,
   };
 
   handleSubmit = name => {
@@ -17,7 +16,9 @@ export class App extends Component {
     return (
       <div>
         <SearchBar onSubmit={this.handleSubmit} />
+
         <ImageGallery searchValue={this.state.searchValue} />
+
         <ToastContainer autoClose={3500} />
       </div>
     );
