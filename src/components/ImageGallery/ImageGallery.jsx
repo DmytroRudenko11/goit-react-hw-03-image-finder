@@ -33,6 +33,7 @@ export class ImageGallery extends Component {
         imageData: reqestedData.hits,
         totalHits: reqestedData.totalHits,
       });
+
       setTimeout(
         () =>
           this.setState(prevState => ({
@@ -48,10 +49,14 @@ export class ImageGallery extends Component {
   }
 
   setCurrentPage = currentPage => {
-    this.setState({ currentPage: currentPage });
-    const element = document.getElementById('ahcnor1');
-    if (element) {
-      element.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    if (currentPage !== '...') {
+      const number = Number(currentPage);
+
+      this.setState({ currentPage: number });
+      const element = document.getElementById('ahcnor1');
+      if (element) {
+        element.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
     }
   };
 
@@ -77,6 +82,9 @@ export class ImageGallery extends Component {
           </Preloader>
         )}
         <List id="ahcnor1">
+          {totalHits === 0 && imageData !== null && (
+            <StartText>No pictures found on your request</StartText>
+          )}
           {imageData !== null ? (
             imageData.map(({ id, webformatURL, largeImageURL, tags }) => (
               <ImageGalleryItem
@@ -90,7 +98,6 @@ export class ImageGallery extends Component {
             <StartText>It's time to search pictures!</StartText>
           )}
         </List>
-        {/* <ExampleApp onOpen={handleOpenModal} onClose={handleCloseModal} /> */}
         {totalHits > perPage && (
           <Pagination
             currentPage={currentPage}

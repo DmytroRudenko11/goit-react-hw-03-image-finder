@@ -16,7 +16,7 @@ export class SearchBar extends Component {
     e.preventDefault();
 
     if (this.state.searchValue.trim() === '') {
-      toast.info('Enter search value!');
+      toast.info('Enter search value!', { theme: 'dark' });
       return;
     }
     this.props.onSubmit(this.state.searchValue);

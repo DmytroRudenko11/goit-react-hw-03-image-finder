@@ -4,9 +4,45 @@ import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 export const Pagination = ({ onChangePage, totalPages, currentPage }) => {
   const pages = [];
   for (let i = 1; i <= totalPages; i++) {
-    if (i <= 20) {
-      pages.push(i);
+    pages.push(i);
+  }
+
+  function handlePaginationDisplay() {
+    const pageNeighboursLeft = [currentPage - 2, currentPage - 1];
+    const pageNeighboursRight = [currentPage + 1, currentPage + 2];
+
+    let rangeToDisplay = [];
+    if (totalPages > 8) {
+      if (currentPage < 6) {
+        rangeToDisplay = [1, 2, 3, 4, 5, 6, '...', totalPages];
+      }
+      if (currentPage >= 6) {
+        rangeToDisplay = [
+          1,
+          '...',
+          ...pageNeighboursLeft,
+          currentPage,
+          ...pageNeighboursRight,
+          '...',
+          totalPages,
+        ];
+      }
+      if (currentPage > totalPages - 5) {
+        rangeToDisplay = [
+          1,
+          '...',
+          totalPages - 5,
+          totalPages - 4,
+          totalPages - 3,
+          totalPages - 2,
+          totalPages - 1,
+          totalPages,
+        ];
+      }
+    } else {
+      rangeToDisplay = pages;
     }
+    return rangeToDisplay;
   }
 
   return (
@@ -17,17 +53,17 @@ export const Pagination = ({ onChangePage, totalPages, currentPage }) => {
       >
         <AiOutlineLeft />
       </Button>
-      {pages.map((page, index) => (
+      {handlePaginationDisplay().map((page, index) => (
         <Page
           key={index}
           currentPage={currentPage}
-          onClick={() => onChangePage(index + 1)}
+          onClick={e => onChangePage(e.target.innerText)}
         >
           {page}
         </Page>
       ))}
       <Button
-        disabled={currentPage === 20}
+        disabled={currentPage === totalPages}
         onClick={() => onChangePage(currentPage + 1)}
       >
         <AiOutlineRight />
